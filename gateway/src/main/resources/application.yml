@@ -21,3 +21,32 @@ spring:
           predicates:
             # 这个是按照路径匹配，只要以 /order/ 开头就符合要求
             - Path=/order/**
+#            - After=2037-01-20T17:42:47.789-07:00[America/Denver]
+          # 过滤器：进入网关的请求和微服务返回的响应做处理
+          filters:
+            - AddRequestHeader=token, t2hdrwe4534ad
+      # 默认过滤器：对所有的路由都生效
+      default-filters:
+        - AddRequestHeader=uuid, u345345
+      # 全局的跨域处理
+      globalcors:
+        # 解决options请求被拦截问题
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            # 允许哪些网站的跨域请求
+            allowedOrigins:
+              - "http://localhost:8090"
+            # 允许的跨域ajax的请求方式
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            # 允许在请求中携带的头信息
+            allowedHeaders: "*"
+            # 是否允许携带cookie
+            allowCredentials: true
+            # 这次跨域检测的有效期
+            maxAge: 360000
